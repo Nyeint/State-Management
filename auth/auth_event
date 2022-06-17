@@ -29,7 +29,7 @@ class SignedUp extends AuthenticationEvent {
   const SignedUp({required this.token,required this.name,required this.password});
 
   @override
-  String toString() => 'LoggedIn { token: $name token: $token }';
+  String toString() => 'SignedUp { name: $name token: $token }';
 }
 
 class LoggedOut extends AuthenticationEvent{}
