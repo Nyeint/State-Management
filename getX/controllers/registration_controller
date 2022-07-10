@@ -1,0 +1,43 @@
+import 'package:getx_test/models/student_info.dart';
+import 'package:get/get.dart';
+
+class RegistrationController extends GetxController{
+  var students =<StudentInfo>[].obs;
+
+  @override
+  void onInit(){
+    super.onInit();
+    fetchUserInfo();
+  }
+
+  void fetchUserInfo() async{
+    await Future.delayed(Duration(seconds: 1));
+    var studentsResult=[
+      StudentInfo(
+          id: 1,
+          name: 'Myat Min',
+          phone: '09978435231',
+          address: 'SanChaung, Yangon',
+          fee: 120000),
+      StudentInfo(
+          id: 2,
+          name: 'Win Mon Thant',
+          phone: '0978903045',
+          address: 'Ahlon, Yangon',
+          fee: 200000),
+      StudentInfo(
+          id: 3,
+          name: 'Kaung Kyaw',
+          phone: '09989435231',
+          address: 'Mandalay',
+          fee: 150000),
+      StudentInfo(
+          id: 4,
+          name: 'May Maing',
+          phone: '0978123445',
+          address: 'Monywa, Sagaing',
+          fee: 300000),
+    ];
+    students.value=studentsResult;
+  }
+}
