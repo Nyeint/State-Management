@@ -1,0 +1,26 @@
+import 'package:getx_test/models/student_info.dart';
+import 'package:get/get.dart';
+
+class ScholarController extends GetxController with StateMixin{
+  var scholarStudents=<StudentInfo>[].obs;
+  int get count=>scholarStudents.length;
+  double get totalFees=>scholarStudents.fold(0, (sum, student) => sum+student.fee);
+  var isLoading=false.obs;
+  var success=false.obs;
+
+  giveScholarship (StudentInfo student){
+    isLoading.toggle();
+    if(!scholarStudents.contains(student)){
+      Future.delayed(const Duration(seconds: 2), () {
+        scholarStudents.add(student);
+        isLoading.toggle();
+      });
+    }
+    else{
+      isLoading.toggle();
+    }
+  }
+  removeScholarship (StudentInfo student){
+    scholarStudents.remove(student);
+  }
+}
