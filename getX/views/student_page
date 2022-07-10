@@ -1,0 +1,111 @@
+import 'package:getx_test/controllers/registration_controller.dart';
+import 'package:getx_test/controllers/scholar_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class StudentPage extends GetView<ScholarController>{
+  final registrationController=Get.put(RegistrationController());
+  final scholarController=Get.put(ScholarController());
+  final controller=Get.find<ScholarController>();
+  @override
+  Widget build(BuildContext context) {
+
+    return
+      Scaffold(
+      body:SafeArea(
+        child:Obx((){
+          return controller.isLoading.value?Center(
+            child:
+            CircularProgressIndicator(),)
+              :
+          Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top: 20)),
+              Expanded(
+                  child:GetX<RegistrationController>(
+                    builder: (registrationController){
+                      return
+                        ListView.builder(
+                            itemCount: registrationController.students.length,
+                            itemBuilder: (context,index){
+                              return Card(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(padding: EdgeInsets.only(left: 20)),
+                                        Text("ID : "),
+                                        Text(registrationController.students[index].id.toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(padding: EdgeInsets.only(left: 20)),
+                                        Text("Name : "),
+                                        Text(registrationController.students[index].name.toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(padding: EdgeInsets.only(left: 20)),
+                                        Text("Phone : "),
+                                        Text(registrationController.students[index].phone.toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(padding: EdgeInsets.only(left: 20)),
+                                        Text("Address : "),
+                                        Text(registrationController.students[index].address.toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:MainAxisAlignment.spaceAround,
+                                      children: [
+                                        RaisedButton(
+                                          onPressed: () {
+                                            scholarController.removeScholarship(registrationController.students[index]);
+                                          },
+                                          color:Colors.blue,
+                                          textColor:Colors.white,
+                                          child: Text("Remove Scholarship"),
+                                        ),
+                                        RaisedButton(
+                                          onPressed: () {
+                                            scholarController.giveScholarship(registrationController.students[index]);
+                                          },
+                                          color:Colors.blue,
+                                          textColor:Colors.white,
+                                          child: Text("Give Scholarship"),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                    },
+                  )
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Total Students: ${scholarController.count}"),
+                  Text("Total scholar fees : ${scholarController.totalFees}"),
+                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Text("Student Names"),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: scholarController.count,
+                      itemBuilder: (context,index){
+                        return Text("${index+1}. ${scholarController.scholarStudents[index].name}");
+                      }),
+                ],
+              )
+            ],
+          );
+        }),
+      )
+    );
+  }
+}
